@@ -8,15 +8,13 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Twitter projects API",
+      title="Cyberinfo.uz - Kiberxavfsizlik yangiliklarini ulashib boruvchi websayt uchun API",
       default_version='v1',
-      description="Najot Ta'lim yakuniy imtihoni uchun",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
+      description="Bu API kiberxavfsizlik yangiliklarini olish, boshqarish va yangilash uchun mo'ljallangan. Siz yangiliklarni ko'rish, qidirish va filtr qilish imkoniyatiga ega bo'lasiz. API yangiliklarni to'plash va foydalanuvchilarni eng so'nggi xavfsizlik tahdidlari bilan tanishtirishda yordam beradi.",
+      terms_of_service="https://t.me/Asadbek_Sotvoldiyev",
+      contact=openapi.Contact(email="blogasadbek@gmail.com"),
    ),
    public=True,
-   permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [

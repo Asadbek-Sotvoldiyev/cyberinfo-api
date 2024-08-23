@@ -1,10 +1,11 @@
+from PIL.DdsImagePlugin import module
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, UserConfirmation, CODE_VERIFIED, DONE, NEW
+from .models import User, CODE_VERIFIED, DONE, NEW
 from shared.utils import send_email, check_user_type
 
 
@@ -183,3 +184,7 @@ class LoginSerializer(TokenObtainPairSerializer):
                 "message": "No active account found"
             })
         return users.first()
+
+
+class CodeSerializer(serializers.Serializer):
+    code = serializers.CharField(max_length=4)
