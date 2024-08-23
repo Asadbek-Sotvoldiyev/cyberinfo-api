@@ -1,12 +1,10 @@
 import uuid
 from datetime import datetime, timedelta
 import random
-
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from shared.models import BaseModel
 
 
