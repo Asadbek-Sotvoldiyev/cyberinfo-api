@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView, UpdateAPIView
@@ -8,7 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from shared.utils import send_email
 from users.models import User, DONE, CODE_VERIFIED
-from users.serializers import SignUpSerializer, ChangeUserInformation, LoginSerializer
+from users.serializers import SignUpSerializer, ChangeUserInformation, LoginSerializer, CodeSerializer
 
 
 class CreateUserView(CreateAPIView):
@@ -19,6 +22,31 @@ class CreateUserView(CreateAPIView):
 
 class VerifyApiView(APIView):
     permission_classes = (permissions.IsAuthenticated, )
+
+    @swagger_auto_schema(
+        request_body=CodeSerializer,
+        responses={
+            201: openapi.Response(
+                description='User created successfully',
+                examples={
+                    'application/json': {
+                        "status": True,
+                        "auth_status": 'EMAIL',
+                        "access_token": 'sfgdsrgdsgdth234858hdcd4d5x6w4856cw4o8n5w4',
+                        "refresh_token": 'srcnhow45740756cwtyw804e8nt89w5to8750ty8tcy8ern',
+                    }
+                }
+            ),
+            400: openapi.Response(
+                description='Validation error',
+                examples={
+                    'application/json': {
+                        'non_field_errors': ['Some error message']
+                    }
+                }
+            )
+        }
+    )
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
