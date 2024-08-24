@@ -6,13 +6,15 @@ from asgiref.sync import sync_to_async
 from .models import User, UserConfirmation
 from telegram import Update, KeyboardButton, ReplyKeyboardMarkup,ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+from django.db.utils import InterfaceError
+from django.db import connections
 
 @sync_to_async
 def get_user_by_username(username):
     try:
         return User.objects.filter(username=username).first()
     except InterfaceError:
-        connections.close_all()  # Barcha aloqalarni qayta ochish
+        connections.close_all()
         return User.objects.filter(username=username).first()
 
 @sync_to_async
