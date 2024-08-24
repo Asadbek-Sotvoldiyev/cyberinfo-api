@@ -9,7 +9,11 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 @sync_to_async
 def get_user_by_username(username):
-    return User.objects.filter(username=username).first()
+    try:
+        return User.objects.filter(username=username).first()
+    except InterfaceError:
+        connections.close_all()  # Barcha aloqalarni qayta ochish
+        return User.objects.filter(username=username).first()
 
 @sync_to_async
 def create_user(username, first_name, last_name, phone_number):
@@ -122,7 +126,6 @@ async def login(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(f"Yangi kodingiz: <code>{new_code}</code>", parse_mode='HTML')
         else:
             await update.message.reply_text(f"Eski kodingiz hali ham kuchda ☝️")
-
 
 
 
