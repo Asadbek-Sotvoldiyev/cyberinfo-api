@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime, timedelta
+from django.utils import timezone
 import random
 from django.core.validators import FileExtensionValidator
 from django.db import models
@@ -94,6 +95,6 @@ class UserConfirmation(BaseModel):
         return str(self.user.__str__())
 
     def save(self, *args, **kwargs):
-        self.expiration_time = datetime.now() + timedelta(minutes=2)
+        self.expiration_time = timezone.now() + timedelta(minutes=2)
         super(UserConfirmation, self).save(*args, **kwargs)
 
