@@ -1,3 +1,5 @@
+from http.client import responses
+
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -12,7 +14,17 @@ class NewsCategoryApiView(APIView):
         categories = NewsCategory.objects.all()
         serializer = NewsCategorySerializer(categories, many=True)
 
-        return Response(serializer.data)
+        if not categories.exists():
+            data = {
+                "status": False,
+                "Message": "Kategoriyalar mavjud emas!"
+            }
+            return Response(data, status=404)
+        data = {
+            "status": True,
+            "data": serializer.data
+        }
+        return Response(data, status=200)
 
 
 class NewsApiView(APIView):

@@ -30,6 +30,7 @@ class User(BaseModel, AbstractUser):
     photo = models.ImageField(upload_to='user_photos/', null=True, blank=True,
                               validators=[
                                   FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'heic', 'heif'])])
+    chat_id = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.username
@@ -95,6 +96,6 @@ class UserConfirmation(BaseModel):
         return str(self.user.__str__())
 
     def save(self, *args, **kwargs):
-        self.expiration_time = timezone.now() + timedelta(minutes=2)
+        self.expiration_time = timezone.now() + timedelta(minutes=5)
         super(UserConfirmation, self).save(*args, **kwargs)
 
