@@ -7,6 +7,7 @@ from rest_framework.exceptions import ValidationError
 
 email_regex = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b")
 username = re.compile(r"^[a-zA-Z0-9._-]+$")
+phone_regex = re.compile(r"^\+998[0-9]{9}$")
 
 
 def check_user_type(user_input):
@@ -14,10 +15,12 @@ def check_user_type(user_input):
         user_input = 'email'
     elif re.fullmatch(username, user_input):
         user_input = 'username'
+    elif re.fullmatch(phone_regex, user_input):
+        user_input = 'phone'
     else:
         data = {
             "success": False,
-            "message": "Email yoki Username xato"
+            "message": "Email, Telefon raqam yoki Username xato"
         }
         raise ValidationError(data)
     return user_input

@@ -1,4 +1,3 @@
-from PIL.DdsImagePlugin import module
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
@@ -6,7 +5,7 @@ from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import User, CODE_VERIFIED, DONE, NEW
-from shared.utils import send_email, check_user_type
+from shared.utils import send_email, check_user_type, username
 
 
 class SignUpSerializer(serializers.ModelSerializer):
@@ -132,6 +131,7 @@ class LoginSerializer(TokenObtainPairSerializer):
         super(LoginSerializer, self).__init__(*args, **kwargs)
         self.fields['userinput'] = serializers.CharField(required=True)
         self.fields['username'] = serializers.CharField(required=False, read_only=True)
+        self.fields['phone_number'] = serializers.CharField(required=False, read_only=True)
 
     def auth_validate(self, data):
         user_input = data.get('userinput')
@@ -140,10 +140,13 @@ class LoginSerializer(TokenObtainPairSerializer):
         elif check_user_type(user_input) == 'email':
             user = self.get_user(email__iexact=user_input)
             username = user.username
+        elif check_user_type(user_input) == 'phone':
+            user = User.objects.filter(phone_number=user_input).first()
+            username = user.username
         else:
             data = {
                 "success": True,
-                "message": "Siz email yoki username jo'natishingiz kerak"
+                "message": "Siz email, telefon raqam yoki username jo'natishingiz kerak"
             }
             raise ValidationError(data)
 
