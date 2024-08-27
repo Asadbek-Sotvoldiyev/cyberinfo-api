@@ -104,7 +104,9 @@ async def start(update: Update, context: CallbackContext) -> None:
 
 async def phone_number_received(update: Update, context: CallbackContext) -> None:
     user = update.message.from_user
-    phone_number = '+' + update.message.contact.phone_number if update.message.contact else 'N/A'
+    phone_number = update.message.contact.phone_number if update.message.contact else 'N/A'
+    if phone_number[0] != '+':
+        phone_number = '+' + phone_number
     chat_id = update.message.chat_id
     result = await get_user_by_phone(phone_number)
 
