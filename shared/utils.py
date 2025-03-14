@@ -45,8 +45,8 @@ def send_email(email, code):
         message = MIMEMultipart()
         message['From'] = gmail_address
         message['To'] = to_address
-        message['Subject'] = 'Instagram confirmation'
-        body = f"Salom! Sizning instagram tasdiqlash kodingiz: {code}"
+        message['Subject'] = 'Cyberinfo.uz confirmation'
+        body = f"Salom! Sizning tasdiqlash kodingiz: {code}"
         message.attach(MIMEText(body, 'plain'))
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()

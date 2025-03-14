@@ -4,9 +4,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import NewsCategorySerializer, NewsSerializer, CommentSerializer, NewsImageSerializer, \
+from .serializers import NewsCategorySerializer, NewsSerializer, CommentSerializer, \
     NewsContentSerializer
-from .models import NewsCategory, News, Comment, NewsImage, ContentSection
+from .models import NewsCategory, News, Comment, ContentSection
 from .news_views import NewViews
 
 
@@ -49,10 +49,8 @@ class NewsApiView(APIView):
 class NewDetailApiView(APIView):
     def get(self, request, id):
         new = News.objects.filter(id=id).first()
-        images = NewsImage.objects.filter(news=new)
         contents = ContentSection.objects.filter(news=new)
         new_serializer = NewsSerializer(new)
-        image_serializer = NewsImageSerializer(images, many=True)
         content_serializer = NewsContentSerializer(contents, many=True)
 
         if new is None:
@@ -68,7 +66,6 @@ class NewDetailApiView(APIView):
         data = {
             "status": True,
             "New": new_serializer.data,
-            "Images": image_serializer.data,
             "Contents": content_serializer.data
         }
         return Response(data, status=200)
