@@ -5,3 +5,6 @@ media
 staticfiles
 __pycache__/
 *.pyc
+media
+staticfiles
+static

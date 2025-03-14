@@ -20,19 +20,13 @@ class News(BaseModel, models.Model):
         return self.title
 
 
-class NewsImage(models.Model):
-    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='news_images/')
-    caption = models.CharField(max_length=255, null=True, blank=True)
-
-    def __str__(self):
-        return f"Image for {self.news.title}"
-
 
 class ContentSection(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='content_sections')
     header = models.CharField(max_length=200, null=True, blank=True)
     content = models.TextField()
+    image = models.ImageField(upload_to='news_images/', null=True, blank=True)
+
 
     def __str__(self):
         return f"Section in {self.news.title}"
