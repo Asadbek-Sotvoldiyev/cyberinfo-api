@@ -8,3 +8,18 @@ __pycache__/
 media
 staticfiles
 static
+docker-compose.override.yml
+*.log
+# VSCode konfiguratsiyasi
+.vscode/
+.idea/
+# OS-specific fayllar
+.DS_Store
+Thumbs.db
+# Django migrations (faqat agar gitda saqlashni istamasangiz)
+**/migrations/*.py
+!**/migrations/__init__.py
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
