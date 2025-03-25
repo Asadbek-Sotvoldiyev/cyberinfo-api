@@ -131,6 +131,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS').split(',')
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Database
